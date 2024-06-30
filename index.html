@@ -1,116 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Time Chat Room</title>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Times New Roman", Times, serif;
+        font-family: 'Roboto Mono', monospace;
       }
+
       body {
-        background: linear-gradient(
-          #03bbdbd5 30%,
-          #0ebeebda 10px,
-          #03d3f8 70%,
-          #01d9ff9f 100%
-        );
+        background: linear-gradient(135deg, #272727, #323232);
+        color: #fff;
+        font-size: 16px;
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
       }
+
+      .projectName {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #03f861;
+      }
+
       .cont {
-        max-width: 1100px;
-        border: 2px solid rgb(0, 0, 0);
-        margin: auto;
-        height: 78vh;
+        max-width: 100%;
+        width: 600px;
+        height: 60vh;
         overflow-y: auto;
-        background-image: url(img/bg.jpg);
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        image-rendering: pixelated;
-      }
-      .cont::-webkit-scrollbar {
-        width: 8px;
-        background-color: #1d532fb4;
-      }
-      .cont::-webkit-scrollbar-thumb {
-        background: rgba(4, 191, 253, 0.63);
-        border-radius: 50px;
-      }
-      .mess {
-        width: 24%;
+        border: 2px solid #1f1f1f;
+        border-radius: 20px;
+        background: #1f1f1f;
+        margin-bottom: 20px;
         padding: 10px;
-        margin: 17px 12px;
       }
+
+      .mess {
+        max-width: 80%;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+
       .left {
         float: left;
         clear: both;
-        border: 2px solid rgba(0, 88, 252, 0.918);
-        background-color: rgba(251, 255, 0, 0.651);
-        overflow-x: auto;
-        border-radius: 50px;
+        background-color: #03a9f4;
+        color: #0d0d0d;
       }
+
       .right {
         float: right;
         clear: both;
-        border: 2px solid rgba(29, 252, 0, 0.466);
-        background-color: rgba(0, 171, 250, 0.562);
-        overflow-x:auto;
-        border-radius: 50px;
+        background-color: #ffeb3b;
+        color: #0d0d0d;
       }
+
       #send-cont {
-        display: block;
-        margin: auto;
-        text-align: center;
-        max-width: 1000px;
+        display: flex;
+        align-items: center;
         width: 100%;
+        max-width: 600px;
       }
+
       #messInp {
+        flex: 1;
         margin: 10px;
-        width: 92%;
-        border: 2px solid black;
-        height: 34px;
+        padding: 10px;
+        border: 2px solid #1f1f1f;
         border-radius: 80px;
-        background-color: #0351f88e;
+        background-color: #424242;
+        color: #fff;
+        font-size: 1rem;
+        transition: border-color 0.3s;
       }
+
+      #messInp:focus {
+        outline: none;
+        border-color: #03a9f4;
+      }
+
       .butt {
         cursor: pointer;
-        border: 2px solid black;
-        padding: 10px;
-        padding-left: 15px;
-        padding-right: 15px;
+        margin: 10px;
+        padding: 10px 15px;
+        border: 2px solid #1f1f1f;
         border-radius: 80px;
-        background-color: rgba(34, 109, 223, 0.541);
-        transition: 1s;
+        background-color: #03a9f4;
+        color: #fff;
+        font-size: 1rem;
+        transition: background-color 0.3s, transform 0.3s;
       }
+
       .butt ion-icon {
-        font-size: 15px;
-        text-align: center;
-        transition: 1s;
+        font-size: 1.2rem;
+        /* margin: 0px; */
       }
+
       .butt:hover {
-        background-color: rgb(83, 220, 20);
+        background-color: #0288d1;
+        transform: scale(1.1);
       }
-      .projectName {
-        display: block;
-        margin: auto;
-        margin-top: 10px;
-        padding: 5px;
-        margin-bottom: 10px;
-        text-align: center;
-        border: 2px solid black;
-        width: 80%;
-        border-radius: 80px;
-        background-color: #5df80386;
-      }
+
       .author {
-        border: 2px solid black;
-        width: 30%;
-        display: block;
-        margin: auto;
-        padding: 5px;
         text-align: center;
-        border-radius: 80px;
-        background-color: #03f861;
+        margin-top: 20px;
+        color: #757575;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+        .cont {
+          max-width: 100%;
+        }
+        #messInp {
+          width: calc(100% - 80px);
+        }
       }
     </style>
     <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
@@ -124,24 +142,22 @@
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
     <link rel="icon" type="image/x-icon" href="img/logo.png">
-    <title>Real Time Chat Room</title>
   </head>
   <body>
     <div class="projectName">
       <h2>Real Time Chat Room</h2>
     </div>
     <div class="cont">
-      <!-- <div class="mess left">hi</div>
-      <div class="mess right">hi</div> -->
+      <!-- Example messages -->
+      <!-- <div class="mess left">Hello! How are you?</div>
+      <div class="mess right">Hi! I'm good, thanks!</div> -->
     </div>
-    <div class="send">
-      <form action="#" id="send-cont">
-        <input type="text" name="messInp" id="messInp" autocomplete="off" />
-        <button class="butt"><ion-icon name="send-outline"></ion-icon></button>
-      </form>
-    </div>
+    <form action="#" id="send-cont">
+      <input type="text" name="messInp" id="messInp" placeholder="Type your message..." autocomplete="off" />
+      <input type="submit" class="butt" value="Send"></input>
+    </form>
     <div class="author">
-      <h5>Powered by Md. Samiul Islam</h5>
+      <h5>Developed by Md. Samiul Islam</h5>
     </div>
   </body>
 </html>
